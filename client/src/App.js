@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Main from './components/main';
 import Navbar from './components/navbar';
 import ThankYou from './components/thankYou';
-import Book from './components/book';
+import Book from './components/Book';
 
-export default _ => {
+export default function App() {
   const [page, setPage] = useState(0);
   return (
     <div className="App">
