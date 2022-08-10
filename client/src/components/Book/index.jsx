@@ -26,12 +26,13 @@ export default function Boock({ setPage }) {
   // User's booking details
   const [booking, setBooking] = useState({ name: '', phone: '', email: '' });
 
-  // List of potential locations
+  // List of potential locations and sizes
   const locations = ['Curitiba', 'Patio', 'Inside', 'Bar'];
   const times = [
     '8AM', '9AM', '10AM', '11AM', '12PM',
     '1PM', '2PM', '3PM', '4PM', '5PM'
   ];
+  const sizes = Array.from({ length: 8 }, (_, index) => index);
   // Basic reservation 'validation'
   const [reservationError, setReservationError] = useState(false);
 
@@ -75,6 +76,7 @@ export default function Boock({ setPage }) {
         return table;
       }
     );
+    console.log(tables);
     setTotalTables(tables);
   }, [getDate, selection]);
 
@@ -143,13 +145,6 @@ export default function Boock({ setPage }) {
         {item}
       </DropdownItem>
     ))
-  };
-
-  // Generate party size dropdown
-  const getSizes = () => {
-    const sizes = [];
-    for (let size = 1; size < 8; size += 1) sizes.push(size);
-    return getItems(sizes, 'size');
   };
 
   return (
@@ -226,7 +221,7 @@ export default function Boock({ setPage }) {
                     : selection.size.toString()}
                 </DropdownToggle>
                 <DropdownMenu right className='booking-dropdown-menu'>
-                  {getSizes()}
+                  {getItems(sizes, 'size')}
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Col>
@@ -303,7 +298,7 @@ export default function Boock({ setPage }) {
                 value={ booking.email }
                 onChange={ ({ target }) => setBooking({ ...booking, email: target.value }) }
               />
-            </Col>  
+            </Col>
           </Row>
           <Row noGutters className='text-center'>
             <Col>

@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id     Int           @id @default(autoincrement())
+  firstname   String
+  lastname    String
+  email       String        @unique
+  password    String
+  phone       String
+  create_at   DateTime      @default(now())
+  update_at   DateTime      @default(now())
+  Reservation Reservation[]
+
+  @@map("users")
+}
+
+model Table {
+  table_id     Int           @id @default(autoincrement())
+  table_name   String
+  capacity     Int
+  is_available Boolean       @default(true)
+  location     Location      @relation(fields: [location_id], references: [location_id])
+  location_id  Int
+  Reservation  Reservation[]
+
+  @@map("tables")
+}
+
+model Reservation {
+  reservation_id     Int      @id @default(autoincrement())
+  reservation_date   DateTime
+  reservation_status Status   @default(AVAILABLE)
+  user               User     @relation(fields: [user_id], references: [user_id])
+  user_id            Int
+  table              Table    @relation(fields: [table_id], references: [table_id])
+  table_id           Int
+
+  @@unique([user_id, table_id])
+  @@map("reservations")
+}
+
+enum Status {
+  AVAILABLE
+  UNAVAILABLE
+  FINISHED
+}
+
+model Location {
+  location_id   Int     @id @default(autoincrement())
+  location_name String
+  Table         Table[]
+
+  @@map("locations")
+}

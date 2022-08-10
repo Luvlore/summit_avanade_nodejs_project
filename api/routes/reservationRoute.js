@@ -1,6 +1,6 @@
-var express = require("express");
-var router = express.Router();
-var mongoose = require("mongoose");
+const express = require("express");
+const router = express.Router();
+const mongoose = require("mongoose");
 
 const Day = require("../models/day").model;
 const Reservation = require("../models/reservation").model;
@@ -14,7 +14,7 @@ const Reservation = require("../models/reservation").model;
 // 	"email": String
 // }
 
-router.post("/", function(req, res, next) {
+router.post("/", function (req, res) {
   Day.find({ date: req.body.date }, (err, days) => {
     if (!err) {
       if (days.length > 0) {
