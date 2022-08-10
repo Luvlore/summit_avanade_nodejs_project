@@ -16,8 +16,10 @@ export default async function CreateTableController(req: Request, res: Response)
 
   const findTable = await prismaClient.table.findFirst({
     where: {
-      location_id: locations.location_id,
-      table_name
+      AND: [
+        { table_name },
+        { location_id: locations.location_id }
+      ]
     }
   });
 
